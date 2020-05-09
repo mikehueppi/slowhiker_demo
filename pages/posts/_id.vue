@@ -7,7 +7,7 @@
             <v-col cols="12" md="12" class="post-image">
               <v-img
                 id="postImage"
-                :src="post.image"
+                :src="imageHeader"
                 :width=window.width-40
                 max-height="450"
               />
@@ -23,14 +23,55 @@
                     </v-tab>
                   </v-tabs>
                   <div class="post-date">
-                    {{ post.date}}
+                    <Date :date="post.date" />
                   </div>
                   <h1>{{ post.title }}</h1>
                   <v-tabs-items v-model="tab">
                     <v-tab-item>
                       <v-card flat color="posttab">
                         <v-card-text>
-                          <div v-html="post.text"></div>
+                          <div class="post-description">{{ post.description }}</div>
+                          <v-simple-table class="post-table">
+                            <template v-slot:default>
+                              <tbody>
+                              <tr>
+                                <td>Länge: </td>
+                                <td>{{ post.distance }}</td>
+                              </tr>
+                              <tr>
+                                <td>Dauer: </td>
+                                <td>{{ post.duration }}</td>
+                              </tr>
+                              <tr>
+                                <td>Höchster Punkt: </td>
+                                <td>{{ post.maxHeight }}</td>
+                              </tr>
+                              <tr>
+                                <td>Region: </td>
+                                <td>{{ post.region }}</td>
+                              </tr>
+                              <tr>
+                                <td>Tags: </td>
+                                <td>
+                                  <div v-if="post.tags.length > 0">
+                                    <v-chip
+                                      small
+                                      v-for="tag of post.tags"
+                                      :key="tag"
+                                      class="ma-2"
+                                    >
+                                      {{ tag }}
+                                    </v-chip>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Links: </td>
+                                <td> - </td>
+                              </tr>
+                              </tbody>
+                            </template>
+                          </v-simple-table>
                         </v-card-text>
                       </v-card>
                     </v-tab-item>
@@ -54,22 +95,18 @@
 </template>
 
 <script>
+import axios from 'axios'
 import FotoGallery from '@/components/posts/PostFotoGallery'
+import Date from '@/components/UI/AppDate'
 export default {
   asyncData (context) {
-    return {
-      post: {
-        id: '1',
-        title: 'Weissenstein (SO) - ID: ' + context.route.params.id,
-        text: '<p>Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>\n' +
-          '<p>Dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>\n' +
-          '<p>Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>\n' +
-          '<p>Dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>',
-        date: '12. Oktober 2018',
-        image: '/touren/img/header_weissenstein.jpg',
-        mapLink: 'https://map.schweizmobil.ch/?lang=de&photos=yes&logo=yes&season=summer&resolution=1.58&E=2694236&N=1111725&bgLayer=pk&trackId=4657783'
-      }
-    }
+    return axios.get('https://slowhiker-9a886.firebaseio.com/posts/' + context.params.id + '.json')
+      .then((res) => {
+        return {
+          post: res.data
+        }
+      })
+      .catch(e => context.error(e))
   },
   data () {
     return {
@@ -86,7 +123,13 @@ export default {
     }
   },
   components: {
-    FotoGallery
+    FotoGallery,
+    Date
+  },
+  computed: {
+    imageHeader () {
+      return (this.image > '') ? '/touren/img/header_' + this.image + '.jpg' : '/touren/img/header_weissenstein.jpg'
+    }
   },
   beforeMount () {
     addEventListener('resize', this.handleResize)
@@ -134,12 +177,22 @@ export default {
   .post-content .v-tab {
     color: #9ccc65;
   }
+  .post-table {
+    max-width: 600px;
+  }
+  .post-content table tr td {
+    color: #666;
+  }
+  .post-description {
+    white-space: pre-wrap;
+    margin-bottom: 20px;
+  }
   .post-date {
     font-size: 12px;
     margin: 20px 0 0 0;
   }
   .posttab--text {
-    color: #999999 !important;
+    color: #666 !important;
   }
   .post-image {
     padding-top: 0;

@@ -1,24 +1,24 @@
 <template>
   <v-card
-    :id="1"
+    :id="id"
     class="teaser"
   >
     <v-row>
       <v-col cols="12" sm="3" class="about-img">
         <v-img
-          :src="thumbnail"
+          :src="imageTeaser"
           max-width="240"
           height="180"
           class="teaser-image"
         />
       </v-col>
       <v-col cols="12" sm="8" class="teaser-content">
-        <div class="teaser-date">{{ date }}</div>
+        <div class="teaser-date"><Date :date="date" /></div>
         <h1>{{ title }}</h1>
         <div class="teaser-text">{{ teaser }}</div>
       </v-col>
       <v-col cols="12" sm="1">
-        <nuxt-link to="/posts/1">
+        <nuxt-link :to="postLink">
           <div class="teaser-action">
             <v-icon medium>arrow_forward_ios</v-icon>
           </div>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import Date from '@/components/UI/AppDate'
 export default {
   name: 'PostListTeaser.vue',
   props: {
@@ -48,9 +49,27 @@ export default {
       type: String,
       required: true
     },
-    thumbnail: {
+    image: {
       type: String,
       required: true
+    }
+  },
+  components: {
+    Date
+  },
+  computed: {
+    imageTeaser () {
+      return (this.image > '') ? '/touren/img/teaser_' + this.image + '.jpg' : '/touren/img/teaser_weissenstein.jpg'
+    },
+    postLink () {
+      return 'posts/' + this.id
+    }
+  },
+  methods: {
+    selectedPost () {
+      // alert(this.id)
+      const postID = this.id
+      this.$router.push({ path: `/posts/${postID}` })
     }
   }
 }

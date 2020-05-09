@@ -37,6 +37,12 @@ export default {
 </script>
 
 <style scoped>
+  #appHeader .nav__listItem, #appHeaderIndex .nav__listItem {
+    padding-top: 22px !important;
+  }
+  #appHeader .icons, #appHeaderIndex .icons {
+    padding-top: 12px !important;
+  }
   .icons {
     text-align: right;
     padding: 0 20px 0 0;

@@ -34,3 +34,6 @@ header.v-toolbar, .v-toolbar__content {
 .v-input__slot, .v-input__slot div label.primary--text {
   color: #9ccc65 !important;
 }
+.post-form .v-toolbar__content {
+  padding: 0 !important;
+}

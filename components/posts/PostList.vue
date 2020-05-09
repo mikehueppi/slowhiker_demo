@@ -7,7 +7,7 @@
       :title="post.title"
       :teaser="post.teaser"
       :date="post.date"
-      :thumbnail="post.thumbnail"
+      :image="post.image"
       class="teaser" />
   </div>
 </template>

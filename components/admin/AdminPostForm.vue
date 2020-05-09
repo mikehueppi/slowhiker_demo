@@ -1,13 +1,20 @@
 <template>
   <section class="admin-new-post post-form">
-    <div class="new-post-edit" v-if="editNew===1">
+    <div v-if="postSaved===true && postFormType!=='update'" class="new-post-saved">Tour wurde erfolgreich gespeichert</div>
+    <div v-if="editNew===1 || postFormType==='update'" class="new-post-edit">
       <v-form
         ref="postForm"
       >
-        <h2>Neue Tour</h2>
-        <v-row>
-          <p>ID: 7</p>
-        </v-row>
+        <v-toolbar flat v-if="postFormType==='update'" >
+          <v-toolbar-title>{{ postData.title }} (ID: {{ postData.id }})</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon>
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+          <v-btn icon>
+            <v-icon>mdi-cancel</v-icon>
+          </v-btn>
+        </v-toolbar>
         <v-row>
           <v-text-field
             v-model="postData.title"
@@ -19,9 +26,9 @@
         </v-row>
         <v-row>
           <v-textarea
-            v-model="teaser"
+            v-model="postData.teaser"
             name="teaser"
-            :counter="200"
+            :counter="300"
             label="Teaser"
             value=""
             background-color="grey lighten-4"
@@ -32,7 +39,7 @@
           <v-textarea
             v-model="postData.description"
             name="description"
-            :counter="200"
+            :counter="1000"
             label="Beschreibung"
             value=""
             background-color="grey lighten-4"
@@ -62,63 +69,232 @@
         </v-row>
         <v-row>
           <v-select
+            v-model="postData.region"
             :items="regions"
             label="Region"
           ></v-select>
         </v-row>
         <v-row>
           <v-text-field
-            v-model="mapLink"
-            name="mapLink"
+            v-model="postData.image"
+            name="image"
             :counter="100"
+            label="Bild-Name"
+            required
+          ></v-text-field>
+        </v-row>
+        <v-row>
+          <p>Tags</p>
+        </v-row>
+        <v-row>
+          <div v-if="postData.tags.length > 0">
+            <v-chip
+              v-for="tag of postData.tags"
+              :key="tag"
+              class="ma-2"
+              close
+              @click:close="deleteTag(tag)"
+            >
+              {{ tag }}
+            </v-chip>
+          </div>
+          <p class="note" v-else>keine Tags</p>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="newTag"
+            name="tag"
+            :counter="100"
+            label=""
+          ></v-text-field>
+          <v-btn class="mx-2" fab dark small color="grey">
+            <v-icon dark @click="addTag(newTag)">mdi-plus</v-icon>
+          </v-btn>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="postData.mapLink"
+            name="mapLink"
+            :counter="200"
             label="Link SchweizMobil"
             required
           ></v-text-field>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="postData.coords.longitude"
+            name="longitude"
+            :counter="50"
+            label="Koordinaten - Longitude"
+            required
+          ></v-text-field>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="postData.coords.latitude"
+            name="longitude"
+            :counter="50"
+            label="Koordinaten - Latitude"
+            required
+          ></v-text-field>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="postData.author"
+            name="author"
+            :counter="100"
+            label="Autor"
+            required
+          ></v-text-field>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="postData.distance"
+            name="distance"
+            :counter="20"
+            label="Distanz"
+            required
+          ></v-text-field>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="postData.duration"
+            name="duration"
+            :counter="20"
+            label="Dauer"
+            required
+          ></v-text-field>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="postData.maxHeight"
+            name="maxheight"
+            :counter="20"
+            label="Maximale Höhe"
+            required
+          ></v-text-field>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="postData.numberOfImages"
+            name="maxheight"
+            :counter="20"
+            label="Anzahl Fotos"
+            required
+          ></v-text-field>
+        </v-row>
+        <v-row>
+          <v-switch
+            v-model="postData.active"
+            label=" aktiv">
+          </v-switch>
         </v-row>
         <v-row>
           <v-col cols="12" md="6">
             <v-btn x-large outlined color="#999999" class="admin-button edit-post" @click="onSubmitted">Tour speichern</v-btn>
           </v-col>
           <v-col cols="12" md="6">
-            <v-btn x-large outlined color="#999999" class="admin-button edit-post" @click="editNew=0">abbrechen</v-btn>
+            <v-btn x-large outlined color="#999999" class="admin-button edit-post" @click="resetPost">abbrechen</v-btn>
           </v-col>
         </v-row>
       </v-form>
     </div>
     <div class="new-post-init" v-else>
-      <v-btn x-large outlined color="#999999" class="admin-button new-post" @click="editNew=1">Neue Tour erstellen</v-btn>
+      <v-btn x-large outlined color="#999999" class="admin-button new-post" @click="createNewTrip">Neue Tour erstellen</v-btn>
     </div>
   </section>
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   name: 'AdminEditPost',
   data: () => ({
     editNew: null,
-    postData: {
-      title: '',
-      description: '',
-      date: ''
-    },
+    newTag: null,
+    postSaved: null,
     date: new Date().toISOString().substr(0, 10),
     menu: false,
     modal: false,
     regions: ['Genferseeregion (GE, VD, VS)', 'Mittelland (BE, SO, FR, NE, JU)', 'Nordwestschweiz (BS, BL, AG)', 'Ostschweiz (SG, TG, AI, AR, GL, SH, GR)', 'Tessin (TI)', 'Zentralschweiz (UR, SZ, OW, NW, LU, ZG)', 'Zürich (ZH)']
   }),
+  props: {
+    postData: {
+      type: Object,
+      required: true
+    },
+    postFormType: {
+      type: String,
+      required: true
+    }
+  },
   methods: {
+    initPostData () {
+      this.postData.title = ''
+      this.postData.teaser = ''
+      this.postData.description = ''
+      this.postData.date = ''
+      this.postData.region = ''
+      this.postData.image = ''
+      this.postData.mapLink = ''
+      this.postData.tags = []
+      this.postData.coords = {
+        longitude: '',
+        latitude: ''
+      }
+      this.postData.author = ''
+      this.postData.distance = ''
+      this.postData.duration = ''
+      this.postData.maxHeight = ''
+      this.postData.active = true
+      this.postData.createDate = new Date()
+      this.postData.numberOfImages = null
+    },
     onSubmitted () {
-      // const text =
-      // const message = text.concat(this.postData.title)
-      // alert('Tour gespeichert! - ' + this.postData.title + ' / ' + this.postData.date)
-      axios.post('https://slowhiker-9a886.firebaseio.com/posts.json', this.postData)
-        .then(result => console.log(result))
-        .catch(e => console.log(e))
+      if (this.postFormType === 'create') {
+        this.$store.dispatch('addPost', this.postData).then(() => {
+          this.editNew = null
+          this.postSaved = true
+          this.$router.push('/admin')
+        })
+      } else {
+        this.$store.dispatch('editPost', this.postData).then(() => {
+          this.editNew = null
+          this.postSaved = true
+          this.$router.push('/admin')
+        })
+      }
+    },
+    createNewTrip () {
+      this.editNew = 1
+      this.postSaved = false
+      this.initPostData()
+    },
+    deleteTag (tag) {
+      const i = this.postData.tags.indexOf(tag)
+      this.postData.tags.splice(i, 1)
+    },
+    addTag (tag) {
+      if (this.newTag > '') {
+        this.newTag = null
+        this.postData.tags.splice(0, 0, tag)
+      }
+    },
+    resetPost () {
+      this.editNew = 0
+      this.postFormType = 'create'
+      this.postSaved = false
+      this.$emit('resetPost')
     }
   },
   mounted () {
-    this.editNew = 0
+    if (typeof this.postData.tags === 'undefined') {
+      this.postData.tags = []
+    }
+  },
+  beforeUpdate () {
+    if (typeof this.postData.tags === 'undefined') {
+      this.postData.tags = []
+    }
   }
 }
 </script>
@@ -146,13 +322,23 @@ export default {
     margin: 0 0 0 0;
     padding: 0 0 12px 0;
   }
+  .post-form p.note {
+    font-size: 14px;
+    font-style: italic;
+    color: #999;
+  }
   .post-form .row {
     padding-left: 12px !important;
+  }
+  .post-form form header {
+    /* background-color: red !important; */
+    padding: 0 !important;
+    margin: 0 0 20px 0 !important;
+    height: 64px !important;
   }
   .admin-new-post {
     min-width: 800px;
     padding: 0 80px 0 0;
-    /* padding: 0 20px 0 0; */
   }
   .admin-button {
     margin: 20px 0 0 0;

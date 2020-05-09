@@ -20,11 +20,10 @@
               <h2>Noch ein weiterer Wander-Blog?</h2>
               <p>Während der Zeit der Corona-Pandemie haben meine Familie und ich vermehrt Ausflüge in unmittelbarer Nähe unternommen. Dabei wurde mir bewusst, dass
                 zahlreiche einladende und faszinierende Gebiete nicht weit vor unserer Haustüre liegen.</p>
-              <p>Mit diesem Blog möchte ich auch andere Menschen inspirieren und dazu einladen, das Schöne in der Nähe zu suchen. Früher bin ich viel in der Welt herum gereist und auch heute gibt es noch entfernte Destinationen, von denen ich träume
-                (unter anderem eine grössere Skandinavien-Reise). Doch in der heutigen Zeit macht es Sinn, bewusster und nachhaltiger unterwegs zu sein und
-                sich hin und wieder zu fragen, ob zum Beispiel eine Fernwanderung über den Jura-Höhenweg nicht genauso reizvoll sein kann, wie ein Trekking-Trip nach Island oder Nepal.</p>
+              <p>Mit diesem Blog möchte ich auch andere Menschen inspirieren und dazu einladen, das Schöne in der Nähe zu suchen. Früher bin ich viel in der Welt herum gereist und auch heute gibt es noch entfernte Destinationen, von denen ich träume.
+                Doch in der heutigen Zeit macht es Sinn, bewusster und nachhaltiger unterwegs zu sein und sich hin und wieder zu fragen, ob zum Beispiel eine Fernwanderung über den Jura-Höhenweg nicht genauso reizvoll sein kann, wie ein Trekking-Trip nach Alaska, Island oder Nepal.</p>
               <h2>Warum der Name &laquo;slowhiker&raquo;?</h2>
-              <p>Der Begriff &laquo;slowhiker&raquo; steht für eine Person, die bewusst eine alternative Form des Wanderns wählt, welche durch Gemächlichkeit, Nachhaltigkeit und Sinnhaftigkeit geprägt ist, analog zum Begriff <em>Slow Travel</em>. Im Tourismus-Bereich hat
+              <p>Der Begriff &laquo;slowhiker&raquo; steht für eine Person, die bewusst eine Form des Wanderns wählt, welche durch Langsamkeit, Achtsamkeit, Nachhaltigkeit und Sinnhaftigkeit geprägt ist, analog zum Begriff <em>Slow Travel</em>. Im Tourismus-Bereich hat
                 sich dieser Ausdruck schon seit einiger Zeit etabliert.</p>
               <h2>Ein paar Worte zur Technologie ...</h2>
               <p>Einen solchen Blog hätte ich genauso gut mit <em>WordPress</em> oder einem ähnlichen CMS umsetzen können. Es wäre viel einfacher und mit weniger Aufwand verbunden gewesen. Als Entwickler mit einem Faible für Design war es aber für mich wichtig,

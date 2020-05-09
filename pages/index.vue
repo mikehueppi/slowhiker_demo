@@ -29,13 +29,10 @@
                   color="#fafafa"
                   class="app-button"
                   @click="$router.push('posts')"
-                >Touren - Impressionen</v-btn>
+                >Touren</v-btn>
                 <p>Um der stürmischen Hektik des Alltags zu entfliehen, mache ich gerne Ausflüge in der Natur, tanke dort Kraft und Energie und geniesse die Stille. Dabei entdecke ich immer wieder unscheinbare Phänomene und kleine Wunder.</p>
                 <p>In den letzten Jahren ist mir bewusst geworden, dass es auch in der heimischen Umgebung viel Schönes und Faszinierendes zu entdecken gibt. Mit diesem Blog möchte ich dir die Augen öffnen und dich dazu inspirieren, die Welt vor deiner Haustür zu entdecken.</p>
-                <!--<p>Um der stürmischen Hektik des Alltags zu entfliehen, mache ich gerne Ausflüge in der Natur, tanke dort Kraft und Energie und geniesse die erholsame Stille. Dabei entdecke ich immer wieder unscheinbare Phänomene und kleine Wunder. Statt permanent in der Welt herumzujetten, finde ich mein Glück oft in der heimischen Umgebung
-                  &ndash;  mit meiner Familie, mit Freunden oder alleine.</p>
-                <p>Auch ich mag Action und ferne Länder. Aber in den letzten Jahren ist mir bewusst geworden, dass es auch ganz in der Nähe viel Schönes und Faszinierendes zu entdecken gibt. Mit diesem Blog möchte ich dir die Augen öffnen und dich dazu inspirieren, die Welt vor deiner Haustür zu entdecken.</p>-->
-                <p><span>&copy; {{ new Date().getFullYear() }}</span></p>
+                <p><span><nuxt-link to="/admin">&copy;</nuxt-link> {{ new Date().getFullYear() }}</span></p>
               </div>
             </v-col>
             <!--<v-col cols="12" md="4">
@@ -136,6 +133,10 @@ export default {
     color: #fafafa;
     font-size: 18px;
     padding: 0 20px 0 20px;
+  }
+  .app-intro-text a {
+    color: #fafafa;
+    text-decoration: none;
   }
   .app-intro-list h2 {
     font-size: 18px;

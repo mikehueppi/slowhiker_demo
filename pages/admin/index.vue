@@ -8,12 +8,13 @@
             <h1>Admin</h1>
             <v-row no-gutters>
               <v-col cols="12" md="8">
-                <PostForm />
+                <PostForm v-if="postFormType === 'create'" :postData="postData" :postFormType="postFormType" @resetPost="resetPost" />
+                <PostForm v-else :postData="postDataSelected" :postFormType="postFormType" @resetPost="resetPost" />
               </v-col>
               <v-col cols="12" md="4">
                 <section class="admin-existing-posts">
                   <h2>Touren bearbeiten</h2>
-                  <PostShortlist listType="edit" />
+                  <PostEditList :posts="posts" :postFormType="postFormType" @selectedPost="selectedPost" />
                 </section>
               </v-col>
             </v-row>
@@ -25,18 +26,50 @@
 </template>
 
 <script>
-import PostShortlist from '@/components/posts/PostShortlist'
+import PostEditList from '@/components/posts/PostEditList'
 import PostForm from '@/components/admin/AdminPostForm'
 export default {
   name: 'index.vue',
   data () {
     return {
-      editNew: null
+      postFormType: 'create',
+      postData: {
+        title: '',
+        teaser: '',
+        description: '',
+        date: '',
+        region: '',
+        image: '',
+        mapLink: '',
+        tags: [],
+        coords: {
+          longitude: '',
+          latitude: ''
+        },
+        author: '',
+        distance: '',
+        duration: '',
+        maxHeight: '',
+        active: true,
+        createDate: new Date(),
+        numberOfImages: null
+      },
+      posts: this.$store.getters.loadedPosts,
+      postDataSelected: {}
     }
   },
   components: {
-    PostShortlist,
+    PostEditList,
     PostForm
+  },
+  methods: {
+    selectedPost (obj) {
+      this.postDataSelected = obj
+      this.postFormType = 'update'
+    },
+    resetPost () {
+      this.postFormType = 'create'
+    }
   }
 }
 </script>
@@ -55,7 +88,7 @@ export default {
     font-size: 18px;
     font-weight: 500;
     margin: 0;
-    padding: 0 0 8px 0;
+    padding: 0 0 8px 12px;
   }
   .admin p {
     font-size: 14px;
@@ -67,6 +100,6 @@ export default {
     padding: 110px 10px 0 10px;
   }
   .admin-existing-posts {
-    padding: 0 0 0 60px;
+    padding: 30px 0 0 60px;
   }
 </style>
