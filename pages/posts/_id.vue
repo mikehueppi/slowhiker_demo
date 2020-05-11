@@ -100,7 +100,7 @@ import FotoGallery from '@/components/posts/PostFotoGallery'
 import Date from '@/components/UI/AppDate'
 export default {
   asyncData (context) {
-    return axios.get('https://slowhiker-9a886.firebaseio.com/posts/' + context.params.id + '.json')
+    return axios.get('https://x.firebaseio.com/posts/' + context.params.id + '.json')
       .then((res) => {
         return {
           post: res.data

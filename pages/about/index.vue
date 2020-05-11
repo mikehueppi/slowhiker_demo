@@ -13,6 +13,7 @@
               />
             </v-col>
             <v-col cols="12" md="8" class="about-description">
+              <!-- todo: Text dynamisch aus JSON / DB -->
               <h1>Über slowhiker</h1>
               <p>Hallo, willkomen auf meiner Website! Mein Name ist Mike Hüppi. Zusammen mit meiner Frau und meinen drei Kindern wohne ich in Hüttikon im Furttal. In meiner Freizeit bin ich häufig und gerne in der Natur unterwegs. Dies ist für mich ein
                 guter Ausgleich zu meiner Tätigkeit als Frontend Engineer.</p>
