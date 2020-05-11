@@ -67,7 +67,6 @@ export default {
   },
   methods: {
     selectedPost () {
-      // alert(this.id)
       const postID = this.id
       this.$router.push({ path: `/posts/${postID}` })
     }

@@ -331,7 +331,6 @@ export default {
     padding-left: 12px !important;
   }
   .post-form form header {
-    /* background-color: red !important; */
     padding: 0 !important;
     margin: 0 0 20px 0 !important;
     height: 64px !important;
