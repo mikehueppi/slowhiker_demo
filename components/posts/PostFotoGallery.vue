@@ -37,41 +37,38 @@
 import VueGallery from 'vue-gallery'
 export default {
   name: 'PostFotoGallery',
-  data: () => ({
-      // todo: --> Foto-Links aus DB...
-    images: [
-      '/touren/img/weissenstein_1.jpg',
-      '/touren/img/weissenstein_2.jpg',
-      '/touren/img/weissenstein_3.jpg',
-      '/touren/img/weissenstein_4.jpg',
-      '/touren/img/weissenstein_5.jpg',
-      '/touren/img/weissenstein_6.jpg',
-      '/touren/img/weissenstein_7.jpg',
-      '/touren/img/weissenstein_8.jpg',
-      '/touren/img/weissenstein_9.jpg',
-      '/touren/img/weissenstein_10.jpg',
-      '/touren/img/weissenstein_11.jpg',
-      '/touren/img/weissenstein_12.jpg',
-      '/touren/img/weissenstein_13.jpg',
-      '/touren/img/weissenstein_14.jpg',
-      '/touren/img/weissenstein_15.jpg',
-      '/touren/img/weissenstein_16.jpg',
-      '/touren/img/weissenstein_17.jpg',
-      '/touren/img/weissenstein_18.jpg',
-      '/touren/img/weissenstein_19.jpg',
-      '/touren/img/weissenstein_20.jpg',
-      '/touren/img/weissenstein_21.jpg',
-      '/touren/img/weissenstein_22.jpg'
-    ],
-    index: null
-  }),
   components: {
     gallery: VueGallery
+  },
+  data: () => ({
+    index: null
+  }),
+  props: {
+    image: {
+      type: String,
+      required: true
+    },
+    numberOfImages: {
+      type: Number,
+      required: true
+    }
+  },
+  computed: {
+    images () {
+      const images = []
+      let n = 0
+      while (n < this.numberOfImages) {
+        images[n] = '/touren/img/' + this.image + '_' + (n + 1) + '.jpg'
+        n++
+      }
+      return images
+    }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import '../../assets/styles/colors.scss';
   .post-content p {
     font-size: 14px;
     font-weight: normal;
@@ -79,7 +76,7 @@ export default {
     padding: 0 0 12px 0;
   }
   .v-card--flat .row {
-    background-color: #efefef;
+    background-color: $white;
     padding: 10px;
     margin: 0;
   }

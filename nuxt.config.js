@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   mode: 'universal',
   /*
@@ -15,7 +13,6 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: '/css/style.css' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans&display=swap' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Material+Icons' }
     ]
@@ -32,7 +29,7 @@ export default {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['~plugins/vue-gallery.client.js'],
+  plugins: ['~plugins/vue-gallery.client', '~plugins/vue-googlemaps'],
   /*
   ** Nuxt.js dev-modules
   */
@@ -59,13 +56,9 @@ export default {
   ** https://github.com/nuxt-community/vuetify-module
   */
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ['~/assets/styles/colors.scss'],
     theme: {
-      light: {
-        primary: colors.red.darken1, // #E53935
-        secondary: colors.red.lighten4, // #FFCDD2
-        accent: colors.indigo.base // #3F51B5
-      }
+      light: {}
     },
     defaultAssets: {
       font: true,
@@ -82,6 +75,7 @@ export default {
     /*
     ** You can extend webpack config here
     */
+    transpile: [/^vue2-google-maps($|\/)/],
     extend (config, ctx) {
     }
   }

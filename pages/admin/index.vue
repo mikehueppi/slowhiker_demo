@@ -47,6 +47,7 @@ export default {
           latitude: ''
         },
         author: '',
+        departure: '',
         distance: '',
         duration: '',
         maxHeight: '',

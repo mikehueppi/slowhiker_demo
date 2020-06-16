@@ -35,24 +35,28 @@
                             <template v-slot:default>
                               <tbody>
                               <tr>
-                                <td>Länge: </td>
+                                <td><v-icon>transfer_within_a_station</v-icon>Länge: </td>
                                 <td>{{ post.distance }}</td>
                               </tr>
                               <tr>
-                                <td>Dauer: </td>
+                                <td><v-icon>schedule</v-icon>Dauer: </td>
                                 <td>{{ post.duration }}</td>
                               </tr>
                               <tr>
-                                <td>Höchster Punkt: </td>
+                                <td><v-icon>terrain</v-icon>Höchster Punkt: </td>
                                 <td>{{ post.maxHeight }}</td>
                               </tr>
                               <tr>
-                                <td>Region: </td>
+                                <td><v-icon>place</v-icon>Region: </td>
                                 <td>{{ post.region }}</td>
                               </tr>
                               <tr>
-                                <td>Tags: </td>
-                                <td>
+                                <td><v-icon>trip_origin</v-icon>Ausgangspunkt: </td>
+                                <td>{{ post.departure }} </td>
+                              </tr>
+                              <tr>
+                                <td><v-icon>local_offer</v-icon>Tags: </td>
+                                <td class="tags">
                                   <div v-if="post.tags.length > 0">
                                     <v-chip
                                       small
@@ -65,10 +69,6 @@
                                   </div>
                                 </td>
                               </tr>
-                              <tr>
-                                <td>Links: </td>
-                                <td> - </td>
-                              </tr>
                               </tbody>
                             </template>
                           </v-simple-table>
@@ -78,7 +78,7 @@
                     <v-tab-item>
                       <v-card flat>
                         <v-card-text>
-                          <FotoGallery />
+                          <FotoGallery :numberOfImages="post.numberOfImages" :image="post.image" />
                         </v-card-text>
                       </v-card>
                     </v-tab-item>
@@ -86,6 +86,7 @@
                 </div>
               </div>
               <iframe width="100%" height="800" :src="post.mapLink" style="border:none; padding: 0 20px 0 20px; margin: 0 0 0 0;" v-if="tabid==1"></iframe>
+              <div class="post-map-link" v-if="tabid==1"><a :href="post.mapLink" target="_blank">Grössere Kartenansicht</a></div>
             </v-col>
           </v-row>
         </v-card>
@@ -100,7 +101,7 @@ import FotoGallery from '@/components/posts/PostFotoGallery'
 import Date from '@/components/UI/AppDate'
 export default {
   asyncData (context) {
-    return axios.get('https://x.firebaseio.com/posts/' + context.params.id + '.json')
+    return axios.get('https://slowhiker-9a886.firebaseio.com/posts/' + context.params.id + '.json')
       .then((res) => {
         return {
           post: res.data
@@ -128,7 +129,7 @@ export default {
   },
   computed: {
     imageHeader () {
-      return (this.image > '') ? '/touren/img/header_' + this.image + '.jpg' : '/touren/img/header_weissenstein.jpg'
+      return (this.post.image > '') ? '/touren/img/header_' + this.post.image + '.jpg' : '/touren/img/header_weissenstein.jpg'
     }
   },
   beforeMount () {
@@ -150,23 +151,24 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import '../../assets/styles/colors.scss';
   .post-container {
     padding: 110px 10px 40px 10px;
   }
   .post-card {
     overflow: hidden;
-    /* margin-bottom: 40px; */
     padding-bottom: 0px
   }
   .post-content {
     padding: 0 60px 0 40px;
   }
   .post-content h1 {
-    font-size: 20px;
-    font-weight: 500;
-    margin: 12px 0 8px 0;
+    font-size: 24px;
+    font-weight: 400;
+    margin: 12px 0 0 0;
     padding: 0 0 0 0;
+    color: $lime;
   }
   .post-content p {
     font-size: 14px;
@@ -175,13 +177,19 @@ export default {
     padding: 0 0 12px 0;
   }
   .post-content .v-tab {
-    color: #9ccc65;
+    color: $dark-grey;
+  }
+  .post-content .v-tab--active {
+    background-color: $light-grey;
   }
   .post-table {
     max-width: 600px;
   }
   .post-content table tr td {
-    color: #666;
+    color: $dark-grey;
+  }
+  .post-content table tr td.tags {
+    padding-left: 4px;
   }
   .post-description {
     white-space: pre-wrap;
@@ -192,12 +200,18 @@ export default {
     margin: 20px 0 0 0;
   }
   .posttab--text {
-    color: #666 !important;
+    color: $dark-grey !important;
   }
   .post-image {
     padding-top: 0;
   }
+  .post-map-link {
+    padding: 8px 0 0 20px;
+  }
   .v-card .v-card__text {
    padding-left: 0 !important;
+  }
+  .v-icon {
+    padding: 0 20px 0 0;
   }
 </style>

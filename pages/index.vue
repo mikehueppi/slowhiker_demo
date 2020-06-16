@@ -10,71 +10,54 @@
         v-for="(slide, i) in slides"
         :key="i"
       >
-            <v-img
-            class="intro-image"
-            :src=slide
-            :height=window.height/100*70
-            />
+        <v-img
+          class="intro-image"
+          :src=slide
+          :height=window.height/100*70
+        />
       </v-carousel-item>
     </v-carousel>
     <div class="page" id="appIntro">
       <v-responsive class="mx-auto app-intro-container">
-          <v-row>
-            <v-col cols="12" md="12">
-              <div class="app-intro-text">
-                <v-btn
-                  block
-                  x-large
-                  outlined
-                  color="#fafafa"
-                  class="app-button"
-                  @click="$router.push('posts')"
-                >Touren</v-btn>
-                <p>Um der stürmischen Hektik des Alltags zu entfliehen, mache ich gerne Ausflüge in der Natur, tanke dort Kraft und Energie und geniesse die Stille. Dabei entdecke ich immer wieder unscheinbare Phänomene und kleine Wunder.</p>
-                <p>In den letzten Jahren ist mir bewusst geworden, dass es auch in der heimischen Umgebung viel Schönes und Faszinierendes zu entdecken gibt. Mit diesem Blog möchte ich dir die Augen öffnen und dich dazu inspirieren, die Welt vor deiner Haustür zu entdecken.</p>
-                <p><span><nuxt-link to="/admin">&copy;</nuxt-link> {{ new Date().getFullYear() }}</span></p>
-              </div>
-            </v-col>
-            <!--<v-col cols="12" md="4">
-              <v-card class="app-intro-list">
-                <h2>Aktuellste Touren</h2>
-                <PostShortlist />
-              </v-card>
-            </v-col>-->
-          </v-row>
+        <v-row>
+          <v-col cols="12" md="12">
+            <div class="app-intro-text">
+              <v-btn
+                block
+                x-large
+                outlined
+                color="#fafafa"
+                class="app-button"
+                @click="$router.push('posts')"
+              >Touren</v-btn>
+              <ContentIndex />
+              <p><span><nuxt-link to="/admin">&copy;</nuxt-link> {{ new Date().getFullYear() }}</span></p>
+            </div>
+          </v-col>
+        </v-row>
       </v-responsive>
     </div>
   </v-layout>
 </template>
 
 <script>
-// import PostShortlist from '@/components/posts/PostShortlist'
+import ContentIndex from '@/components/content/ContentIndex'
 export default {
   components: {
-    // PostShortlist
+    ContentIndex
   },
   data () {
     return {
       slides: [
         '/touren/img/header_weissenstein.jpg',
+        '/touren/img/header_rasa.jpg',
+        '/touren/img/header_weissberg.jpg',
         '/touren/img/header_schinberg.jpg',
         '/touren/img/header_wasserschloss.jpg',
         '/touren/img/header_weissberg3.jpg',
-        '/touren/img/header_aletsch.jpg',
-        '/touren/img/header_rasa.jpg',
-        // '/touren/img/header_loco.jpg',
-        // '/touren/img/header_weissberg2.jpg',
-        '/touren/img/header_edelweiss.jpg',
-        '/touren/img/header_unterbaech.jpg',
         '/touren/img/header_reusstal.jpg',
-        // '/touren/img/header_linn2.jpg',
-        '/touren/img/header_weissberg.jpg',
         '/touren/img/header_matterhorn.jpg',
-        '/touren/img/header_reusstal2.jpg',
-        // '/touren/img/header_tuefelscheller.jpg',
-        '/touren/img/header_wildspitz.jpg',
         '/touren/img/header_wildspitz2.jpg',
-        // '/touren/img/header_schinberg2.jpg',
         '/touren/img/header_schinberg3.jpg'
       ],
       window: {

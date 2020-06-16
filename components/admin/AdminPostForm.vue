@@ -140,6 +140,16 @@
         </v-row>
         <v-row>
           <v-text-field
+            v-model="postData.departure"
+            name="departure"
+            :counter="100"
+            label="Ausgangspunkt"
+            required
+          ></v-text-field>
+        </v-row>
+
+        <v-row>
+          <v-text-field
             v-model="postData.author"
             name="author"
             :counter="100"
@@ -214,8 +224,7 @@ export default {
     postSaved: null,
     date: new Date().toISOString().substr(0, 10),
     menu: false,
-    modal: false,
-    regions: ['Genferseeregion (GE, VD, VS)', 'Mittelland (BE, SO, FR, NE, JU)', 'Nordwestschweiz (BS, BL, AG)', 'Ostschweiz (SG, TG, AI, AR, GL, SH, GR)', 'Tessin (TI)', 'Zentralschweiz (UR, SZ, OW, NW, LU, ZG)', 'Zürich (ZH)']
+    modal: false
   }),
   props: {
     postData: {
@@ -225,6 +234,11 @@ export default {
     postFormType: {
       type: String,
       required: true
+    }
+  },
+  computed: {
+    regions () {
+      return this.$store.getters.regions
     }
   },
   methods: {
@@ -331,6 +345,7 @@ export default {
     padding-left: 12px !important;
   }
   .post-form form header {
+    /* background-color: red !important; */
     padding: 0 !important;
     margin: 0 0 20px 0 !important;
     height: 64px !important;
