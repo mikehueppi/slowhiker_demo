@@ -30,30 +30,6 @@
           @closeDialog="closeDialog"
         />
       </v-dialog>
-<!--<v-dialog
-        v-model="dialog"
-        max-width="290"
-      >
-        <v-card>
-          <v-card-title class="headline">{{ currentTourTitle }}</v-card-title>
-          <v-card-text>
-            {{ currentTourTeaser }}
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <nuxt-link :to="currentTourLink">
-              <v-btn
-                color="green darken-1"
-                text
-                @click="dialog = false"
-              >
-                zur Tour
-              </v-btn>
-            </nuxt-link>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      -->
     </GmapMap>
 </template>
 
@@ -63,8 +39,6 @@ export default {
   name: 'index.vue',
   components: {
     MapTeaser
-    // MapLoader,
-    // MapMarker
   },
   data () {
     return {
